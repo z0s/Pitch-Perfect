@@ -15,30 +15,22 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     lazy var recordingLabel: UILabel = {
         let label = UILabel()
         self.view.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -100).isActive = true
         return label
     }()
     
     lazy var recordButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.topAnchor.constraint(equalTo: self.recordingLabel.bottomAnchor, constant: 30).isActive = true
-        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         return button
     }()
     
     lazy var stopRecordingButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.topAnchor.constraint(equalTo: self.recordButton.bottomAnchor, constant: 30).isActive = true
-        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         return button
     }()
     
+   
     lazy var audioRecorder: AVAudioRecorder = {
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -64,6 +56,28 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         stopRecordingButton.setImage(#imageLiteral(resourceName: "stopRecordingButton"), for: .normal)
         recordButton.addTarget(self, action: #selector(startRecording(sender:)), for: .touchUpInside)
         stopRecordingButton.addTarget(self, action: #selector(stopRecording(sender:)), for: .touchUpInside)
+        
+        let viewArray =  [recordButton, recordingLabel, stopRecordingButton] as [UIView]
+        
+        let stackView = UIStackView(arrangedSubviews: viewArray)
+        stackView.axis = .vertical
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        stackView.spacing = 0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        let viewsDict = ["stackView":stackView]
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[stackView]-20-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDict)
+        let stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-120-[stackView]-120-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDict)
+        
+        view.addConstraints(stackView_H)
+        view.addConstraints(stackView_V)
+
+        
+        
+        
+        
     }
     
     func startRecording(sender:UIButton) {
@@ -75,7 +89,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         
         try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
         
-        //audioRecorder.prepareToRecord()
         audioRecorder.record()
         
     }
