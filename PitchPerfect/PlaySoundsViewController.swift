@@ -14,70 +14,56 @@ class PlaySoundsViewController: UIViewController {
     lazy var snailButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.tag = ButtonType.slow.rawValue
-        button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100).isActive = true
-        button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 75).isActive = true
+        
         return button
     }()
     
     lazy var chipmunkButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.tag = ButtonType.chipmunk.rawValue
-        button.leadingAnchor.constraint(equalTo: self.snailButton.trailingAnchor, constant: 75).isActive = true
-        button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100).isActive = true
+        
+        
         return button
     }()
-
+    
     lazy var vaderButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
         button.tag = ButtonType.vader.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 75).isActive = true
-        button.topAnchor.constraint(equalTo: self.snailButton.bottomAnchor, constant: 50).isActive = true
+        
         return button
     }()
     lazy var rabbitButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.tag = ButtonType.fast.rawValue
-        button.leadingAnchor.constraint(equalTo: self.vaderButton.trailingAnchor, constant: 75).isActive = true
-        button.topAnchor.constraint(equalTo: self.chipmunkButton.bottomAnchor, constant: 50).isActive = true
-
+        
         return button
     }()
     lazy var echoButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.tag = ButtonType.echo.rawValue
-        button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 75).isActive = true
-        button.topAnchor.constraint(equalTo: self.vaderButton.bottomAnchor, constant: 50).isActive = true
- 
+        
         return button
     }()
     lazy var reverbButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.tag = ButtonType.reverb.rawValue
-        button.leadingAnchor.constraint(equalTo: self.echoButton.trailingAnchor, constant: 75).isActive = true
-
-        button.topAnchor.constraint(equalTo: self.rabbitButton.bottomAnchor, constant: 50).isActive = true
-    
+        
         return button
     }()
     lazy var stopButton: UIButton = {
         let button = UIButton(type: .system)
         self.view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        button.topAnchor.constraint(equalTo: self.reverbButton.bottomAnchor, constant: 50).isActive = true
-
+      
         return button
     }()
     
@@ -113,7 +99,7 @@ class PlaySoundsViewController: UIViewController {
     
     func stopButtonPressed(){
         print("Stop Audio Button Pressed")
-       stopAudio()
+        stopAudio()
     }
     
     
@@ -121,6 +107,51 @@ class PlaySoundsViewController: UIViewController {
         super.viewDidLoad()
         print("PlaySoundsViewController loaded")
         setupAudio()
+        
+        let buttonArray1 =  [snailButton, chipmunkButton]
+        let buttonArray2 =  [vaderButton, rabbitButton]
+        let buttonArray3 =  [echoButton, reverbButton]
+        let buttonArray4 =  [stopButton]
+        
+        let subStackView1 = UIStackView(arrangedSubviews: buttonArray1)
+        subStackView1.axis = .horizontal
+        subStackView1.distribution = .equalCentering
+        subStackView1.alignment = .fill
+        subStackView1.spacing = 5
+        
+        let subStackView2 = UIStackView(arrangedSubviews: buttonArray2)
+        subStackView2.axis = .horizontal
+        subStackView2.distribution = .equalCentering
+        subStackView2.alignment = .fill
+        subStackView2.spacing = 5
+        
+        let subStackView3 = UIStackView(arrangedSubviews: buttonArray3)
+        subStackView3.axis = .horizontal
+        subStackView3.distribution = .equalCentering
+        subStackView3.alignment = .fill
+        subStackView3.spacing = 5
+        
+        let subStackView4 = UIStackView(arrangedSubviews: buttonArray4)
+        subStackView4.axis = .horizontal
+        subStackView4.distribution = .equalCentering
+        subStackView4.alignment = .fill
+        subStackView4.spacing = 5
+        
+        let stackView = UIStackView(arrangedSubviews: [subStackView1,subStackView2,subStackView3,subStackView4])
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        let viewsDict = ["stackView":stackView]
+        let stackView_H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[stackView]-20-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDict)
+        let stackView_V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-50-[stackView]-20-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDict)
+        
+        view.addConstraints(stackView_H)
+        view.addConstraints(stackView_V)
+        
         
         snailButton.setImage(#imageLiteral(resourceName: "snailButton"), for: .normal)
         snailButton.addTarget(self, action: #selector(playSoundForButton(sender:)), for: .touchUpInside)
@@ -140,14 +171,14 @@ class PlaySoundsViewController: UIViewController {
         reverbButton.setImage(#imageLiteral(resourceName: "reverbButton"), for: .normal)
         reverbButton.addTarget(self, action: #selector(playSoundForButton(sender:)), for: .touchUpInside)
         
-
+        
         stopButton.setImage(#imageLiteral(resourceName: "stopRecordingButton"), for: .normal)
         stopButton.addTarget(self, action: #selector(stopButtonPressed), for: .touchUpInside)
         
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
-       configureUI(.notPlaying)
+        configureUI(.notPlaying)
     }
     
 }
