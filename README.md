@@ -15,7 +15,7 @@ The Pitch Perfect allows users to record a sound using the device's microphone. 
 - Reverb
 
 ## Questions?
-Send me an [email](mailto:macs4enthusiasts@gmail.com?subject=PitchPerfect3.0).
+Send me an [email](mailto:developios5@gmail.com?subject=PitchPerfect3.0).
 
 ## Credits
 Original graphical assets were provided by Udacity. The concept for this app was presented during the iOS Developer Nanodegree taught by Udacity.
